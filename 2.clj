@@ -49,6 +49,5 @@
        (filter is-any-safe?)
        (count)))
 
-;; 252
 (prn "SILVER" (silver))
 (prn "GOLDEN" (golden))
