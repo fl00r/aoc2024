@@ -17,12 +17,12 @@
 
 (defn get-words [xs]
   (let [line (count (first xs))]
-    (for [i (range (count xs))]
-      (for [j (range line)]
-        [(get-word xs i j 0 1)
-         (get-word xs i j 1 1)
-         (get-word xs i j 1 0)
-         (get-word xs i j 1 -1)]))))
+    (for [i (range (count xs))
+          j (range line)]
+      [(get-word xs i j 0 1)
+       (get-word xs i j 1 1)
+       (get-word xs i j 1 0)
+       (get-word xs i j 1 -1)])))
 
 (defn silver []
   (->> INPUT
@@ -44,8 +44,9 @@
 
 (defn get-x-words [xs]
   (let [line (count (first xs))]
-    (for [i (range (count xs))]
-      (for [j (range line)] (get-x-word xs i j)))))
+    (for [i (range (count xs))
+          j (range line)]
+      (get-x-word xs i j))))
 
 (defn golden []
   (->> INPUT
@@ -53,7 +54,6 @@
        (clojure.string/split-lines)
        (map split-chars)
        (get-x-words)
-       (flatten)
        (filter X-MAS)
        (count)))
 
