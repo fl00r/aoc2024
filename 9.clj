@@ -1,6 +1,6 @@
 (require 'clojure.string)
 
-(def INPUT "10.input")
+(def INPUT "9.input")
 
 (def SPACE ".")
 
