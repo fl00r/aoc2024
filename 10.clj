@@ -2,12 +2,13 @@
 
 (def INPUT "10.input")
 
+(defn map-integer [xs]
+  (map #(Integer. (str %)) xs))
+
 (defn climb [mtrx val x y]
   (let [pnt (some-> mtrx
-                    (nth y [])
-                    (nth x nil)
-                    (str)
-                    (Integer.))]
+                    (nth y nil)
+                    (nth x nil))]
     (cond (= pnt val 9) [{:x x :y y}]
           (= pnt val) (concat (climb mtrx (inc val) (dec x) y)
                               (climb mtrx (inc val) (inc x) y)
@@ -16,14 +17,15 @@
           :else [])))
 
 (defn examine [mtrx]
-  (for [[y line] (map-indexed vector mtrx)
-        x (range (count line))]
+  (for [[y row] (map-indexed vector mtrx)
+        x (range (count row))]
     (climb mtrx 0 x y)))
 
 (defn silver []
   (->> INPUT
        (slurp)
        (clojure.string/split-lines)
+       (map map-integer)
        (examine)
        (map set)
        (map count)
@@ -33,6 +35,7 @@
   (->> INPUT
        (slurp)
        (clojure.string/split-lines)
+       (map map-integer)
        (examine)
        (map count)
        (reduce +)))
