@@ -56,7 +56,6 @@
 
 (defn count-lines [xs]
   (->> xs
-       (map vec)
        (sort-by identity)
        (partition 2 1)
        (remove is-line?)
@@ -65,10 +64,10 @@
 
 (defn get-lines [[dir xs]]
   (case dir
-    :left (->> xs (map rest) (count-lines))
-    :right (->> xs (map rest) (count-lines))
-    :top (->> xs (map rest) (map reverse) (count-lines))
-    :bottom (->> xs (map rest) (map reverse) (count-lines))))
+    :left (->> xs (map rest) (map vec) (count-lines))
+    :right (->> xs (map rest) (map vec) (count-lines))
+    :top (->> xs (map rest) (map reverse) (map vec) (count-lines))
+    :bottom (->> xs (map rest) (map reverse) (map vec) (count-lines))))
 
 (defn calculate-lines-by-area [xs]
   (let [lines (->> xs
