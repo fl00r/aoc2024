@@ -98,6 +98,5 @@
          (map calculate-lines-by-area)
          (reduce +))))
 
-
 (prn "SILVER" (silver))
 (prn "GOLDEN" (golden))
