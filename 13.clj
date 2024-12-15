@@ -3,7 +3,6 @@
 (def INPUT "13.input")
 (def A 3)
 (def B 1)
-(def MAX 100)
 
 (defn int-seq [s]
   (->> s
