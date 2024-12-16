@@ -33,13 +33,13 @@ with open(INPUT) as file:
       if (char == END): end = (x, y)
     maze.append(row)
 
-costs = {(start[1], start[2]): 0}
+costs = {start: 0}
 pq = [(0, start)]
 
 while pq:
   cost, vertice = heapq.heappop(pq)
   direction, x, y = vertice
-  if cost <= costs[(x, y)]:
+  if True or cost <= costs[vertice]:
     cost_rotations = (
       (cost + FORWARD, direction),
       (cost + FORWARD + ROTATION, ROTATE[direction]),
@@ -50,9 +50,15 @@ while pq:
       nx = x + rotation[0]
       ny = y + rotation[1]
       n = maze[ny][nx]
-      ccost = costs.get((nx, ny))
+      nvertice = (rotation, nx, ny)
+      ccost = costs.get(nvertice)
       if n != WALL and (ccost == None or ccost > ncost):
-        costs[(nx, ny)] = ncost
-        heapq.heappush(pq, (ncost, (rotation, nx, ny)))
+        costs[nvertice] = ncost
+        heapq.heappush(pq, (ncost, nvertice))
 
-print(costs[end])
+print(
+  min(costs.get((EAST, end[0], end[1]), float('inf') ),
+    costs.get((WEST, end[0], end[1]), float('inf') ),
+    costs.get((NORTH, end[0], end[1]), float('inf') ),
+    costs.get((SOUTH, end[0], end[1]), float('inf') ))
+)
