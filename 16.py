@@ -39,11 +39,10 @@ pq = [(0, start)]
 while pq:
   cost, vertice = heapq.heappop(pq)
   direction, x, y = vertice
-  if True or cost <= costs[vertice]:
+  if cost <= costs[vertice]:
     cost_rotations = (
       (cost + FORWARD, direction),
       (cost + FORWARD + ROTATION, ROTATE[direction]),
-      (cost + FORWARD + ROTATION + ROTATION, ROTATE[ROTATE[direction]]),
       (cost + FORWARD + ROTATION, ROTATE[ROTATE[ROTATE[direction]]]),
     )
     for (ncost, rotation) in cost_rotations:
@@ -55,10 +54,11 @@ while pq:
       if n != WALL and (ccost == None or ccost > ncost):
         costs[nvertice] = ncost
         heapq.heappush(pq, (ncost, nvertice))
+        
+end_cost = min(
+  costs.get((EAST, end[0], end[1]), float('inf')),
+  costs.get((WEST, end[0], end[1]), float('inf')),
+  costs.get((NORTH, end[0], end[1]), float('inf')),
+  costs.get((SOUTH, end[0], end[1]), float('inf')))
 
-print(
-  min(costs.get((EAST, end[0], end[1]), float('inf') ),
-    costs.get((WEST, end[0], end[1]), float('inf') ),
-    costs.get((NORTH, end[0], end[1]), float('inf') ),
-    costs.get((SOUTH, end[0], end[1]), float('inf') ))
-)
+print(end_cost)
