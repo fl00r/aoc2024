@@ -35,6 +35,7 @@ with open(INPUT) as file:
 
 costs = {start: 0}
 pq = [(0, start)]
+path = {}
 
 while pq:
   cost, vertice = heapq.heappop(pq)
@@ -52,13 +53,40 @@ while pq:
       nvertice = (rotation, nx, ny)
       ccost = costs.get(nvertice)
       if n != WALL and (ccost == None or ccost > ncost):
+        path[nvertice] = set([vertice])
         costs[nvertice] = ncost
         heapq.heappush(pq, (ncost, nvertice))
-        
-end_cost = min(
-  costs.get((EAST, end[0], end[1]), float('inf')),
-  costs.get((WEST, end[0], end[1]), float('inf')),
-  costs.get((NORTH, end[0], end[1]), float('inf')),
-  costs.get((SOUTH, end[0], end[1]), float('inf')))
+      elif n != WALL and ccost == ncost:
+        path[nvertice].add(vertice)
+      
 
-print(end_cost)
+min_end = min([(EAST, end[0], end[1]),
+               (WEST, end[0], end[1]),
+               (NORTH, end[0], end[1]),
+               (SOUTH, end[0], end[1])],
+              key=lambda x: costs.get(x, float("inf")))
+
+print(costs[min_end])
+
+hops = {min_end, start}
+points = {min_end}
+while points:
+  point = points.pop()
+  for p in path[point]:
+    if p not in hops:
+      points.add(p)
+      hops.add(p)
+
+hh = set()
+for (d, x, y) in hops:
+  hh.add((x,y))
+
+for (y, row) in enumerate(maze):
+  for (x, ch) in enumerate(row):
+    if ((x, y) in hh):
+      print("0", end="")
+    else:
+      print(ch, end="")
+  print("")
+
+print(len(hh))
