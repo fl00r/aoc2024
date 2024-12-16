@@ -81,12 +81,4 @@ hh = set()
 for (d, x, y) in hops:
   hh.add((x,y))
 
-for (y, row) in enumerate(maze):
-  for (x, ch) in enumerate(row):
-    if ((x, y) in hh):
-      print("0", end="")
-    else:
-      print(ch, end="")
-  print("")
-
 print(len(hh))
