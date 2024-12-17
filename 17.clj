@@ -99,17 +99,12 @@
        (clojure.string/join ",")))
 
 (defn reverse-engineer [a n {:keys [programm] :as cfx}]
-  (let [programm' (take-last n programm)]
-    (mapcat
-     (fn [i]
-       (let [a' (+ (* a 8) i)
-             cfx' (assoc cfx :a a')
-             out (:out (perform cfx'))]
-         (when (= out programm')
-           (if (= out programm)
-             [a']
-             (reverse-engineer a' (inc n) cfx)))))
-     (range 0 8))))
+  (mapcat
+   #(let [a' (+ (* a 8) %)
+          out (:out (perform (assoc cfx :a a')))]
+      (cond (= out programm) [a']
+            (= out (take-last n programm)) (reverse-engineer a' (inc n) cfx)))
+   (range 0 8)))
 
 (defn golden []
   (->> INPUT
