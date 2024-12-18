@@ -60,8 +60,8 @@
     (loop [left 1024
            right (count points)]
       (let [bytes (+ left (quot (- right left) 2))
-            first (silver bytes)
-            second (silver (dec bytes))]
+            first (nil? (silver bytes))
+            second (nil? (silver (dec bytes)))]
         (cond (not= first second) (nth points (dec bytes))
               first (recur bytes right)
               :else (recur left bytes))))))
