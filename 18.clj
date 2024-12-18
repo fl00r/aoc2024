@@ -54,17 +54,17 @@
        (->result 70 70)))
 
 (defn golden []
-  (loop [left 1024
-         right 3450]
-    (let [bytes (+ left (quot (- right left) 2))
-          first (silver bytes)
-          second (silver (dec bytes))]
-      (cond (not= first second) (-> INPUT
-                                    (slurp)
-                                    (clojure.string/split-lines)
-                                    (nth (dec bytes)))
-            first (recur bytes right)
-            :else (recur left bytes)))))
+  (let [points (-> INPUT
+                   (slurp)
+                   (clojure.string/split-lines))]
+    (loop [left 1024
+           right (count points)]
+      (let [bytes (+ left (quot (- right left) 2))
+            first (silver bytes)
+            second (silver (dec bytes))]
+        (cond (not= first second) (nth points (dec bytes))
+              first (recur bytes right)
+              :else (recur left bytes))))))
 
 (prn "SILVER" (silver 1024))
 
