@@ -40,7 +40,6 @@
 (defn ->sequences [acc xs]
   (->> xs
        (map #(rem % 10))
-       (map int)
        (partition 5 1)
        (reduce ->sequence {})
        (merge-with + acc)))
