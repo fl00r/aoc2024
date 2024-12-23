@@ -12,13 +12,11 @@
   (clojure.string/split s #"-"))
 
 (defn ->components-of-3 [mp]
-  (->> mp
-       (mapcat (fn [[k ks]]
-                 (mapcat (fn [k']
-                           (some->> (get mp k')
-                                    (filter (fn [k''] (contains? ks k'')))
-                                    (map (fn [k''] #{k k' k''}))))
-                         ks)))
+  (->> (for [[k ks] mp
+             k' ks
+             k'' (get mp k')
+             :when (contains? ks k'')]
+         #{k k' k''})
        (distinct)))
 
 (defn with-chief? [xs]
