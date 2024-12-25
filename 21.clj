@@ -27,12 +27,6 @@
    :DOWN [1 1]
    :RIGHT [2 1]})
 
-(def RR (->> DIRECTIONAL-KEYPAD
-             (map reverse)
-             (map vec)
-             (into {})))
-
-
 (defn ->direction [hole [[x1 y1] [x2 y2]]]
   (let [dx (- x2 x1)
         dy (- y2 y1)
